@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,8 +18,9 @@ namespace Diagnostico_Aula202310
             Console.WriteLine("Responda as próximas perguntas apenas com SIM ou NÃO.\n");
 
             string[] respostas = new string[4];
-            int count0 = 0, count1 = 0, count2 = 0, count3 = 0;
+            int count0 = 0, count1 = 0, count2 = 0, count3 = 0, resposta = 0;
             bool erro = false;
+            string resultadoRisco = "";
             if (erro == false)
             {
                 do
@@ -27,7 +28,7 @@ namespace Diagnostico_Aula202310
                     Console.WriteLine("Seu cartão de vacina está em dia?");
                     respostas[0] = Console.ReadLine().ToLower();
 
-                    
+
                     if (respostas[0] != "sim" && respostas[0] != "nao" && respostas[0] != "não")
                     {
                         Console.WriteLine("RESPOSTA INVÁLIDA!!\n");
@@ -48,7 +49,7 @@ namespace Diagnostico_Aula202310
                     Console.WriteLine("Teve algum dos sintomas recentemente? (dor de cabeça, febre, náusea, dor articular, gripe)");
                     respostas[1] = Console.ReadLine().ToLower();
 
-                    
+
                     if (respostas[1] != "sim" && respostas[1] != "nao" && respostas[1] != "não")
                     {
                         Console.WriteLine("RESPOSTA INVÁLIDA!!\n");
@@ -69,7 +70,7 @@ namespace Diagnostico_Aula202310
                     Console.WriteLine("Teve contato com pessoas com sintomas gripais nos últimos dias?");
                     respostas[2] = Console.ReadLine().ToLower();
 
-                    
+
                     if (respostas[2] != "sim" && respostas[2] != "nao" && respostas[2] != "não")
                     {
                         Console.WriteLine("RESPOSTA INVÁLIDA!!\n");
@@ -90,7 +91,7 @@ namespace Diagnostico_Aula202310
                     Console.WriteLine("Está retornando de viagem realizada no exterior?");
                     respostas[3] = Console.ReadLine().ToLower();
 
-                    
+
                     if (respostas[3] != "sim" && respostas[3] != "nao" && respostas[3] != "não")
                     {
                         Console.WriteLine("RESPOSTA INVÁLIDA!!\n");
@@ -112,62 +113,45 @@ namespace Diagnostico_Aula202310
             }
             for (int i = 1; i < respostas.Length; i++)
             {
-                
+
                 if (respostas[i] == "sim")
                 {
                     risco = risco + 30;
                 }
             }
 
-            if (risco <= 30)
+            if (respostas[3] == "sim")
             {
-                Console.WriteLine("\nPorcentagem de risco: " + risco + "%");
-                if (respostas[3] == "sim")
-                {
-                    Console.WriteLine("Você ficará sob observação por 05 dias.");
-                }
-                else
-                {
-                    Console.WriteLine("Paciente sob observação. Caso apareça algum sintoma, gentileza buscar assistência médica.");
-                }
+                resultadoRisco = "Você ficará sob observação por 05 dias.";
             }
-            if (risco > 30 && risco <= 60)
+            else
             {
-                Console.WriteLine("\nPorcentagem de risco: " + risco + "%");
-                if (respostas[3] == "sim")
+                if (risco <= 30)
                 {
-                    Console.WriteLine("Você ficará sob observação por 05 dias.");
+                    resultadoRisco = "Paciente sob observação. Caso apareça algum sintoma, gentileza buscar assistência médica.";
                 }
-                else
+                if (risco > 30 && risco <= 60)
                 {
-                    Console.WriteLine("Paciente com risco de estar infectado. Gentileza aguardar em lockdown por 02 dias para ser acompanhado.");
+                    resultadoRisco = "Paciente com risco de estar infectado. Gentileza aguardar em lockdown por 02 dias para ser acompanhado.";
                 }
-            }
-            if (risco >60 && risco <= 89)
-            {
-                Console.WriteLine("\nPorcentagem de risco: " + risco + "%");
-                if (respostas[3] == "sim")
+                if (risco > 60 && risco <= 89)
                 {
-                    Console.WriteLine("Você ficará sob observação por 05 dias.");
-                }
-                else
-                {
-                    Console.WriteLine("Paciente com alto risco de estar infectado. Gentileza aguardar em lockdown por 05 dias para ser acompanhado.");
-                }
-            }
-            if (risco >= 90)
-            {
-                Console.WriteLine("\nPorcentagem de risco: " + risco + "%");
-                if (respostas[3] == "sim")
-                {
-                    Console.WriteLine("Você ficará sob observação por 05 dias.");
-                }
-                else
-                {
-                    Console.WriteLine("Paciente crítico! Gentileza aguardar em lockdown por 10 dias para ser acompanhado.");
+                    resultadoRisco = "Paciente com alto risco de estar infectado. Gentileza aguardar em lockdown por 05 dias para ser acompanhado.";
+                    if (risco >= 90)
+                    {
+                        resultadoRisco = "Paciente crítico! Gentileza aguardar em lockdown por 10 dias para ser acompanhado.";
+                    }
                 }
             }
 
+            Console.WriteLine("\nNome: " + nome);
+            Console.WriteLine("Idade: " + idade);
+            Console.WriteLine("Cartão de vacina está em dia? " + respostas[0]);
+            Console.WriteLine("Teve sintomas recentemente? " + respostas[1]);
+            Console.WriteLine("Teve contato com pessoas infectadas? " + respostas[2]);
+            Console.WriteLine("Está retornando de viagem? " + respostas[3]);
+            Console.WriteLine("Probabilidade de estar infectada: " + risco + "%");
+            Console.WriteLine("Orientação final do atendimento: " + resultadoRisco);
             Console.ReadLine();
         }
     }
