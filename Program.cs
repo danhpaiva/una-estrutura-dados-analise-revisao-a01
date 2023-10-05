@@ -1,158 +1,155 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+// Declaração de Variáveis que vamos utilizar no Algoritmo
+string nome = string.Empty, cartaoVacinaEmDia = string.Empty, teveSintomasRecentemente = string.Empty,
+teveContatoComPessoasSintomaticas = string.Empty, estaRetornandoViagem = string.Empty, orientacaoFinal = string.Empty;
+int idade, contador = 0, porcentagemInfeccao = 0;
+bool erroTentativas = false;
 
-namespace Diagnostico_Aula202310
+Console.WriteLine("\tRelatório Auxiliar de Controle de Infecções");
+
+Console.WriteLine("\nInforme o seu nome: ");
+nome = Console.ReadLine().ToUpper();
+
+Console.WriteLine("\nInforme a sua idade: ");
+idade = int.Parse(Console.ReadLine());
+
+// Começo as perguntas de sim e nao, que serão importantes na lógica de porcentagem
+do
 {
-    class Program
+    Console.WriteLine("\nSeu cartão de vacina está em dia? Digite SIM ou NAO ?");
+    cartaoVacinaEmDia = Console.ReadLine().ToUpper();
+
+    if (cartaoVacinaEmDia == "SIM" || cartaoVacinaEmDia == "NAO") { break; }
+    else
     {
-        static void Main(string[] args)
+        contador++;
+        Console.WriteLine("\nDigito inválido! Digite 'SIM' ou 'NAO'.");
+        if (contador == 3)
         {
-            Console.WriteLine("Informe seu nome:");
-            string nome = Console.ReadLine();
-            Console.WriteLine("Informe sua idade");
-            int idade = Convert.ToInt32(Console.ReadLine());
-
-            Console.WriteLine("Responda as próximas perguntas apenas com SIM ou NÃO.\n");
-
-            string[] respostas = new string[4];
-            int count0 = 0, count1 = 0, count2 = 0, count3 = 0, resposta = 0;
-            bool erro = false;
-            string resultadoRisco = "";
-            if (erro == false)
-            {
-                do
-                {
-                    Console.WriteLine("Seu cartão de vacina está em dia?");
-                    respostas[0] = Console.ReadLine().ToLower();
-
-
-                    if (respostas[0] != "sim" && respostas[0] != "nao" && respostas[0] != "não")
-                    {
-                        Console.WriteLine("RESPOSTA INVÁLIDA!!\n");
-                    }
-                    if (count0 == 3)
-                    {
-                        Console.WriteLine("Não foi possível realizar o diagnóstico.\nGentileza procurar ajuda médica caso apareça algum sintoma.");
-                        erro = true;
-                    }
-                    count0++;
-                } while (respostas[0] != "sim" && respostas[0] != "nao" && respostas[0] != "não" && erro == false);
-            }
-
-            if (erro == false)
-            {
-                do
-                {
-                    Console.WriteLine("Teve algum dos sintomas recentemente? (dor de cabeça, febre, náusea, dor articular, gripe)");
-                    respostas[1] = Console.ReadLine().ToLower();
-
-
-                    if (respostas[1] != "sim" && respostas[1] != "nao" && respostas[1] != "não")
-                    {
-                        Console.WriteLine("RESPOSTA INVÁLIDA!!\n");
-                    }
-                    if (count1 == 3)
-                    {
-                        Console.WriteLine("Não foi possível realizar o diagnóstico.\nGentileza procurar ajuda médica caso apareça algum sintoma.");
-                        break;
-                    }
-                    count1++;
-                } while (respostas[1] != "sim" && respostas[1] != "nao" && respostas[1] != "não");
-            }
-
-            if (erro == false)
-            {
-                do
-                {
-                    Console.WriteLine("Teve contato com pessoas com sintomas gripais nos últimos dias?");
-                    respostas[2] = Console.ReadLine().ToLower();
-
-
-                    if (respostas[2] != "sim" && respostas[2] != "nao" && respostas[2] != "não")
-                    {
-                        Console.WriteLine("RESPOSTA INVÁLIDA!!\n");
-                    }
-                    if (count2 == 3)
-                    {
-                        Console.WriteLine("Não foi possível realizar o diagnóstico.\nGentileza procurar ajuda médica caso apareça algum sintoma.");
-                        break;
-                    }
-                    count2++;
-                } while (respostas[2] != "sim" && respostas[2] != "nao" && respostas[2] != "não");
-            }
-
-            if (erro == false)
-            {
-                do
-                {
-                    Console.WriteLine("Está retornando de viagem realizada no exterior?");
-                    respostas[3] = Console.ReadLine().ToLower();
-
-
-                    if (respostas[3] != "sim" && respostas[3] != "nao" && respostas[3] != "não")
-                    {
-                        Console.WriteLine("RESPOSTA INVÁLIDA!!\n");
-                    }
-                    if (count3 == 3)
-                    {
-                        Console.WriteLine("Não foi possível realizar o diagnóstico.\nGentileza procurar ajuda médica caso apareça algum sintoma.");
-                        break;
-                    }
-                    count3++;
-                } while (respostas[3] != "sim" && respostas[3] != "nao" && respostas[3] != "não");
-            }
-
-            int risco = 0;
-
-            if (respostas[0] == "não" || respostas[0] == "nao")
-            {
-                risco = risco + 10;
-            }
-            for (int i = 1; i < respostas.Length; i++)
-            {
-
-                if (respostas[i] == "sim")
-                {
-                    risco = risco + 30;
-                }
-            }
-
-            if (respostas[3] == "sim")
-            {
-                resultadoRisco = "Você ficará sob observação por 05 dias.";
-            }
-            else
-            {
-                if (risco <= 30)
-                {
-                    resultadoRisco = "Paciente sob observação. Caso apareça algum sintoma, gentileza buscar assistência médica.";
-                }
-                if (risco > 30 && risco <= 60)
-                {
-                    resultadoRisco = "Paciente com risco de estar infectado. Gentileza aguardar em lockdown por 02 dias para ser acompanhado.";
-                }
-                if (risco > 60 && risco <= 89)
-                {
-                    resultadoRisco = "Paciente com alto risco de estar infectado. Gentileza aguardar em lockdown por 05 dias para ser acompanhado.";
-                    if (risco >= 90)
-                    {
-                        resultadoRisco = "Paciente crítico! Gentileza aguardar em lockdown por 10 dias para ser acompanhado.";
-                    }
-                }
-            }
-
-            Console.WriteLine("\nNome: " + nome);
-            Console.WriteLine("Idade: " + idade);
-            Console.WriteLine("Cartão de vacina está em dia? " + respostas[0]);
-            Console.WriteLine("Teve sintomas recentemente? " + respostas[1]);
-            Console.WriteLine("Teve contato com pessoas infectadas? " + respostas[2]);
-            Console.WriteLine("Está retornando de viagem? " + respostas[3]);
-            Console.WriteLine("Probabilidade de estar infectada: " + risco + "%");
-            Console.WriteLine("Orientação final do atendimento: " + resultadoRisco);
-            Console.ReadLine();
+            erroTentativas = true;
+            break;
         }
     }
+} while (true);
+
+// Reseto o contador porque vamos utilizá-lo novamente
+contador = 0;
+
+// Valido se continuo perguntando ou se vou direto para a mensagem final
+if (erroTentativas == false)
+{
+    do
+    {
+        Console.WriteLine("\nTeve algum dos sintomas recentemente?(dor de cabeça, febre, náusea, dor articular, gripe)" +
+                  "\nDigite SIM ou NAO");
+        teveSintomasRecentemente = Console.ReadLine().ToUpper();
+
+        if (teveSintomasRecentemente == "SIM" || teveSintomasRecentemente == "NAO") { break; }
+        else
+        {
+            contador++;
+            Console.WriteLine("\nDigito inválido! Digite SIM ou NAO.");
+            if (contador == 3)
+            {
+                erroTentativas = true;
+                break;
+            }
+        }
+    } while (true);
 }
+
+contador = 0;
+
+if (erroTentativas == false)
+{
+    do
+    {
+        Console.WriteLine("\nTeve contato com pessoas com sintomas gripais nos últimos dias?" +
+                    "\nDigite SIM ou NAO");
+
+        teveContatoComPessoasSintomaticas = Console.ReadLine().ToUpper();
+
+        if (teveContatoComPessoasSintomaticas == "SIM" || teveContatoComPessoasSintomaticas == "NAO") { break; }
+        else
+        {
+            contador++;
+            Console.WriteLine("\nDigito inválido! Digite SIM ou NAO.");
+            if (contador == 3)
+            {
+                erroTentativas = true;
+                break;
+            }
+        }
+    } while (true);
+}
+
+contador = 0;
+
+if (erroTentativas == false)
+{
+    do
+    {
+        Console.WriteLine("\nEstá retornando de viagem realizada no exterior?" +
+                  "\nDigite SIM ou NAO");
+        estaRetornandoViagem = Console.ReadLine().ToUpper();
+
+        if (estaRetornandoViagem == "SIM" || estaRetornandoViagem == "NAO") { break; }
+        else
+        {
+            contador++;
+            Console.WriteLine("\nDígito inválido! Digite SIM ou NAO.");
+            if (contador == 3)
+            {
+                erroTentativas = true;
+                break;
+            }
+        }
+    } while (true);
+}
+
+// Valido se imprimo a mensagem de erro baseado se a pessoa erro em suas tentativas
+if (erroTentativas == true)
+    Console.WriteLine("\nNão foi possível realizar o diagnóstico. \nGentileza procurar ajuda médica caso apareça algum sintoma.");
+
+else
+{
+    // Começo a incrementar a porcentagem de acordo com as perguntas respondidas
+    if (estaRetornandoViagem == "SIM") { porcentagemInfeccao += 30; }
+
+    if (cartaoVacinaEmDia == "NAO") { porcentagemInfeccao += 10; }
+
+    if (teveSintomasRecentemente == "SIM") { porcentagemInfeccao += 30; }
+
+    if (teveContatoComPessoasSintomaticas == "SIM") { porcentagemInfeccao += 30; }
+
+    // Verifico se a pessoa está retornando de viagem e imprimo as informações
+    if (estaRetornandoViagem == "SIM") { orientacaoFinal = "Você ficará sob observação por 05 dias."; }
+    else
+    {
+        // Verifico a porcentagem de infecção para imprimir a orientação final de acordo com a porcentagem
+        if (porcentagemInfeccao >= 90)
+            orientacaoFinal = "\nPaciente crítico! Gentileza aguardar em lockdown por 10 dias para ser acompanhado.";
+
+        else if (porcentagemInfeccao <= 30)
+            orientacaoFinal = "\nPaciente sob observação. \nCaso apareça algum sintoma, gentileza buscar assistência médica.";
+
+        else if (porcentagemInfeccao <= 60)
+            orientacaoFinal = "\nPaciente com risco de estar infectado. \nGentileza aguardar em lockdown por 02 dias para ser acompanhado.";
+
+        // Agora é o cenário entre 61% e 89%, diagnosticado na prática feita em aula
+        else
+            orientacaoFinal = "\nPaciente com alto risco de estar infectado. \nGentileza aguardar em lockdown por 05 dias para ser acompanhado.";
+    }
+
+    // Imprimo a mensagem final do programa
+    Console.WriteLine("\nNome: " + nome);
+    Console.WriteLine("Idade: " + idade + " anos");
+    Console.WriteLine("Cartão Vacinal em Dia: " + cartaoVacinaEmDia);
+    Console.WriteLine("Teve sintomas recentemente: " + teveSintomasRecentemente);
+    Console.WriteLine("Teve contato com pessoas infectadas: " + teveContatoComPessoasSintomaticas);
+    Console.WriteLine("Esta retornando de viagem: " + estaRetornandoViagem);
+    Console.WriteLine($"Porcentagem infecção: {porcentagemInfeccao} %");
+    Console.WriteLine("Orientação Final: " + orientacaoFinal);
+}
+
+Console.WriteLine("\nPesquisa concluída.");
+Console.ReadLine();
